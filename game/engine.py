@@ -38,7 +38,7 @@ class GameEngine:
             "config": config,
             "history": [],
             "genre": config.genre,
-            "custom_theme": dict(config.custom_theme) if config.custom_theme else None,
+            "custom_theme": config.custom_theme.model_dump() if config.custom_theme else None,
         }
         self.world_manager.create(game_id)
 
@@ -287,7 +287,7 @@ class GameEngine:
 
             # Parse final segments once (for history and state update)
             final_segments = self.parse_segments(buffer)
-            response_text = json.dumps([dict(s) for s in final_segments])
+            response_text = json.dumps([s.model_dump() for s in final_segments])
 
             game["history"].append({
                 "action": action,

@@ -143,7 +143,7 @@ class NPCProfileManager:
 
     def to_dict(self, game_id: str) -> dict:
         profiles = self.get_all(game_id)
-        return {name: dict(p) for name, p in profiles.items()}
+        return {name: p.model_dump() for name, p in profiles.items()}
 
     def load_from_dict(self, game_id: str, data: dict):
         self._ensure_game(game_id)

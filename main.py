@@ -39,7 +39,7 @@ async def new_game(config: GameConfig):
     if config.genre == "custom" and not config.custom_theme:
         raise HTTPException(status_code=400, detail="Custom genre requires custom_theme")
     game_id, segments = engine.create_game(config)
-    intro = json.dumps([dict(s) for s in segments])
+    intro = json.dumps([s.model_dump() for s in segments])
     return CreateGameResponse(game_id=game_id, intro=intro)
 
 
@@ -65,7 +65,7 @@ async def get_game(game_id: str):
     world_state = engine.world_manager.to_dict(game_id)
     return {
         "game_id": game_id,
-        "config": dict(game["config"]) if hasattr(game["config"], "__dict__") else game["config"],
+        "config": game["config"].model_dump(),
         "world_state": world_state,
         "history_count": len(game["history"]),
     }
