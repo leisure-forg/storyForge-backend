@@ -109,5 +109,5 @@ class WorldStateManager:
     def to_dict(self, game_id: str) -> dict:
         state = self.get(game_id)
         if state:
-            return state.model_dump()
+            return dict(state)
         return {}
